@@ -8,12 +8,16 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.DefaultThreadFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 
 public class NettyServer {
+    private static Logger LOGGER = LoggerFactory.getLogger(NettyServer.class);
 
     private ServerBootstrap bootstrap;
+    private ChannelFuture channelFuture;
 
     public boolean start(int port) {
         int bossThreads = 1;
@@ -31,8 +35,14 @@ public class NettyServer {
             .childHandler(new HttpChannelInitializer());
 
         InetSocketAddress socketAddress = new InetSocketAddress(port);
-        ChannelFuture channelFuture = bootstrap.bind(socketAddress).syncUninterruptibly();
-        System.out.println("TCP server is started on port:" + port);
+        channelFuture = bootstrap.bind(socketAddress).syncUninterruptibly();
+        LOGGER.info("TCP server is started on port:" + port);
         return true;
+    }
+
+    public void stop() {
+        bootstrap.config().group().shutdownGracefully().syncUninterruptibly();
+        bootstrap.config().childGroup().shutdownGracefully().syncUninterruptibly();
+        LOGGER.info("TCP server is stopped");
     }
 }

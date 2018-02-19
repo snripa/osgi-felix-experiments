@@ -20,6 +20,11 @@
             <artifactId>implementation-hello</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.rii</groupId>
+            <artifactId>implementation-hello-fragment</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

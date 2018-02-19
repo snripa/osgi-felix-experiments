@@ -17,6 +17,7 @@
     <modules>
         <module>implementation-server</module>
         <module>implementation-hello</module>
+        <module>implementation-hello-fragment</module>
         <module>implementation-hello-distribution</module>
     </modules>
 
